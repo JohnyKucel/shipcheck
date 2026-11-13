@@ -28,13 +28,23 @@ const ISSUE_FIELDS = [
   'issuelinks',
 ];
 
-async function jiraGet(path) {
-  const res = await api.asUser().requestJira(route`${path}`, {
+/**
+ * GET a Jira REST endpoint.
+ *
+ * IMPORTANT (Forge `route` rule, learned live 2026-11-13): `route` is a
+ * tagged template — an interpolated segment must NEVER contain `/`.
+ * Interpolating a whole path (e.g. route`${path}`) makes Forge reject the
+ * call with "Disallowing path manipulation attempt" and the dashboard
+ * shows "Could not load data". So every call site passes a STATIC
+ * template and interpolates only single path segments (projectKey).
+ */
+async function jiraGet(routeValue, label) {
+  const res = await api.asUser().requestJira(routeValue, {
     headers: { Accept: 'application/json' },
   });
   if (!res.ok) {
     const text = await res.text().catch(() => '');
-    throw new Error(`Jira GET ${path} failed: HTTP ${res.status} ${text.slice(0, 200)}`);
+    throw new Error(`Jira GET ${label} failed: HTTP ${res.status} ${text.slice(0, 200)}`);
   }
   return res.json();
 }
@@ -57,7 +67,7 @@ async function jiraSearchJql(jql) {
 /** First project (by key) when the caller did not name one. */
 export async function resolveProjectKey(projectKey) {
   if (projectKey && String(projectKey).trim()) return String(projectKey).trim().toUpperCase();
-  const data = await jiraGet('/rest/api/3/project/search?maxResults=50');
+  const data = await jiraGet(route`/rest/api/3/project/search?maxResults=50`, 'project/search');
   const first = (data.values || [])[0];
   if (!first) throw new Error('No Jira projects found on this site.');
   return first.key;
@@ -65,7 +75,7 @@ export async function resolveProjectKey(projectKey) {
 
 /** Latest unreleased version by default; exact name match when given. */
 export async function resolveVersion(projectKey, versionName) {
-  const versions = await jiraGet(`/rest/api/3/project/${projectKey}/versions`);
+  const versions = await jiraGet(route`/rest/api/3/project/${projectKey}/versions`, `project/${projectKey}/versions`);
   if (versionName && String(versionName).trim()) {
     const wanted = String(versionName).trim().toLowerCase();
     const found = (versions || []).find((v) => String(v.name).toLowerCase() === wanted);
@@ -89,7 +99,7 @@ export async function getVersionIssues(projectKey, version) {
 
 export async function listVersions(projectKey) {
   const key = await resolveProjectKey(projectKey);
-  const versions = await jiraGet(`/rest/api/3/project/${key}/versions`);
+  const versions = await jiraGet(route`/rest/api/3/project/${key}/versions`, `project/${key}/versions`);
   return {
     projectKey: key,
     versions: (versions || []).map((v) => ({
