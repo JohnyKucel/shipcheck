@@ -60,7 +60,13 @@ module (UI Kit dashboard). One codebase serves all three surfaces.
 
 ## Installation / testing instructions for judges
 
-1. Open the installation link: [INSTALLATION LINK]
+1. Install from source (5 min, free): clone https://github.com/JohnyKucel/shipcheck,
+   run `forge register` (Developer Space, free), `forge deploy -e production`,
+   then `forge install -e production -s <your-site>.atlassian.net -p Jira`
+   and approve the two read scopes. (Atlassian's console "Sharing with
+   anyone" is enabled for this app, but its Distribution page does not
+   expose an installation link for this app version, so there is no
+   one-click install link — source install is the verified path.)
 2. Install on a Jira Cloud site (Standard/Premium trial is enough;
    Rovo is required for the agent and MCP demos) and approve the two
    read scopes.
