@@ -82,7 +82,7 @@ module (UI Kit dashboard). One codebase serves all three surfaces.
 
 ## Source code
 
-[REPO LINK — public GitHub repo, MIT license]
+https://github.com/JohnyKucel/shipcheck (public, MIT license)
 
 ## Built with
 

@@ -107,13 +107,18 @@ Built locally, no accounts created. Validated without an Atlassian site:
 6. **External MCP exposure** (for the MCP bonus demo): Atlassian
    Administration → Apps → Sites → your site → Connected apps → open the
    ShipCheck app → enable Tools / external MCP exposure.
-7. **Seed demo data** (5 min, on the dev site): project `WEB`
-   ("Website Redesign"), version `2.4` (unreleased), ~10 issues:
-   6 Done, 2 In Progress, 1 To Do Highest (`WEB-118` payment bug,
-   assigned), 1 To Do High (unassigned), 1 To Do untouched for 3 weeks.
-   Expected dashboard: **~74/100 — CAUTION**, 3-4 blockers. Then mark
-   `WEB-118` Done live on camera → refresh → **~90/100 — READY**.
+7. **Seed demo data** (5 min, on the dev site — run
+   `seed-demo-data.mjs`, needs a Jira API token, see its header): project
+   `WEB` ("Website Redesign"), version `2.4` (unreleased), 20 issues:
+   18 Done, 1 To Do Highest (payment bug, assigned to you), 1 To Do High
+   (hero image, unassigned). Expected dashboard: **74/100 — NOT READY**
+   (any open Highest forces NOT READY), 2 blockers. Then mark the
+   Highest bug Done live on camera → refresh → **89/100 — READY**.
    (That before/after arc is scene 4 of `demo-script.md`.)
+   The script prints the real issue keys — use those in the narration,
+   not the `WEB-118`/`WEB-121` placeholders in the demo script.
+   Stale issues cannot be seeded via REST (Jira won't backdate
+   `updated`); the numbers above assume stale = 0.
 8. **Demo video** (< 5 min, public YouTube) — script in `demo-script.md`.
 9. **Submit on Devpost** before **23 Dec 2026 03:00 WIB** (22 Dec 12:00 PT).
    Form content pre-written in `SUBMISSION.md`. Category: Apps for
