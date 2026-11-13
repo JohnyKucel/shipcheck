@@ -1,0 +1,128 @@
+# ShipCheck — Release Readiness Agent for Jira (Forge)
+#
+# Codegeist 2026 submission. ONE app, THREE prize tracks:
+#   - Category: Apps for Software Teams
+#   - Bonus: Best Agents (rovo:agent module below)
+#   - Bonus: Best app with Atlassian MCP (rovo:mcp module below)
+#   (Rules: one submission can win one Grand Prize + one Bonus Prize.)
+#
+# NOTE ON app.id: this repo is written WITHOUT an Atlassian account.
+# `forge create` normally writes `app.id` here. Run `forge register`
+# (after `forge login` with the Devpost entrant's Atlassian account)
+# and the CLI will add the id. `forge lint` accepts the manifest
+# without it. See README.md "Deploy" for the exact steps.
+manifestVersion: 1
+app:
+  runtime:
+    name: nodejs22.x
+modules:
+  rovo:agent:
+    - key: shipcheck-agent
+      name: ShipCheck
+      description: Answers "is this release ready to ship?" from live Jira data — readiness score, blockers, and evidence.
+      prompt: resource:agent-prompt;prompt.md
+      conversationStarters:
+        - Is version 2.4 ready to ship?
+        - What is blocking our release?
+        - Summarize the current version for me
+      actions:
+        - version-readiness
+        - list-blockers
+        - version-summary
+  rovo:mcp:
+    - key: shipcheck-mcp
+      name: ShipCheck MCP
+      tools:
+        - version-readiness
+        - list-blockers
+        - version-summary
+  action:
+    - key: version-readiness
+      name: Check release readiness
+      function: getVersionReadiness
+      actionVerb: GET
+      description: |
+        Scores how ready a Jira version (release) is to ship, 0-100, with a
+        verdict of READY, CAUTION, or NOT READY plus the evidence behind it.
+        Use it for "is version X ready to ship", "can we release", or "go/no-go".
+        Leave projectKey empty to use the first project, and versionName empty
+        to use the latest unreleased version.
+      inputs:
+        projectKey:
+          title: Project key
+          type: string
+          required: false
+          description: Jira project key, for example WEB. Leave empty to use the first project.
+        versionName:
+          title: Version name
+          type: string
+          required: false
+          description: Jira version (fixVersion) name, for example 2.4. Leave empty to use the latest unreleased version.
+    - key: list-blockers
+      name: List release blockers
+      function: listBlockers
+      actionVerb: GET
+      description: |
+        Lists everything blocking a Jira version from shipping: open Highest
+        and High priority issues, unassigned issues, stale issues untouched
+        for over 14 days, and issues that block other issues. Ranked worst
+        first. Use it for "what is blocking the release" or "show blockers".
+        Leave projectKey empty to use the first project, and versionName empty
+        to use the latest unreleased version.
+      inputs:
+        projectKey:
+          title: Project key
+          type: string
+          required: false
+          description: Jira project key, for example WEB. Leave empty to use the first project.
+        versionName:
+          title: Version name
+          type: string
+          required: false
+          description: Jira version (fixVersion) name, for example 2.4. Leave empty to use the latest unreleased version.
+    - key: version-summary
+      name: Summarize a version
+      function: getVersionSummary
+      actionVerb: GET
+      description: |
+        Summarizes a Jira version: issue counts by status, priority, and type,
+        plus release date and the list of open issues. Use it for "summarize
+        version X" or "what is in this release". Leave projectKey empty to use
+        the first project, and versionName empty to use the latest unreleased
+        version.
+      inputs:
+        projectKey:
+          title: Project key
+          type: string
+          required: false
+          description: Jira project key, for example WEB. Leave empty to use the first project.
+        versionName:
+          title: Version name
+          type: string
+          required: false
+          description: Jira version (fixVersion) name, for example 2.4. Leave empty to use the latest unreleased version.
+  jira:projectPage:
+    - key: shipcheck-dashboard
+      title: ShipCheck — Release Readiness
+      resource: dashboard
+      resolver:
+        function: dashboardResolver
+      render: native
+  function:
+    - key: getVersionReadiness
+      handler: index.getVersionReadiness
+    - key: listBlockers
+      handler: index.listBlockers
+    - key: getVersionSummary
+      handler: index.getVersionSummary
+    - key: dashboardResolver
+      handler: index.dashboardResolver
+resources:
+  - key: agent-prompt
+    path: prompts
+  - key: dashboard
+    path: src/frontend/index.jsx
+permissions:
+  scopes:
+    - read:jira-work
+    - read:jira-user
