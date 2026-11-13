@@ -1,9 +1,9 @@
 # ShipCheck — demo video script (< 5 min, target ~4:20)
 
 Record on the developer site seeded per README step 7 (project WEB,
-version 2.4: 18 Done, 1 To Do Highest payment bug, 1 To Do High hero
-image unassigned). Issue keys WEB-118 / WEB-121 below are placeholders
-— use the real keys printed by `seed-demo-data.mjs`. Show the app
+version 2.4: 18 Done, 1 To Do Highest payment bug WEB-19, 1 To Do High
+hero image WEB-20). Live-verified scores: 76/100 NOT READY before,
+91/100 READY after marking WEB-19 Done. Show the app
 WORKING in the first 60 seconds — judges are not required to watch
 beyond 5 minutes.
 
@@ -23,40 +23,40 @@ clear English (all submission materials must be in English). Captions on.
 
 - [VISUAL] Rovo chat open on a Jira issue. Type: "Is version 2.4 ready
   to ship?"
-- [VISUAL] ShipCheck answers: "Version 2.4: 74/100 — NOT READY", then the
+- [VISUAL] ShipCheck answers: "Version 2.4: 76/100 — NOT READY", then the
   deduction breakdown (18/20 done, 1 open Highest, 1 open High,
-  1 unassigned) and the top blockers with keys.
+  0 unassigned) and the top blockers with keys.
 - [NARRATOR] "ShipCheck is a Rovo agent. It reads live Jira data and
   scores the release with a fixed, transparent formula — no guessing,
-  no invented numbers. Seventy-four — NOT READY: one Highest-priority bug
+  no invented numbers. Seventy-six — NOT READY: one Highest-priority bug
   is still open, and any open Highest blocks the release by rule."
 - [VISUAL] Follow-up, typed: "What is blocking our release?"
-- [VISUAL] Ranked blocker list: WEB-118 payment bug (Highest),
-  WEB-121 unassigned (High).
+- [VISUAL] Ranked blocker list: WEB-19 payment bug (Highest),
+  WEB-20 hero image (High).
 - [NARRATOR] "And it ranks exactly what is standing in the way."
 
 ## Scene 3 — Dashboard (2:00–2:50)
 
 - [VISUAL] Switch to the Jira project page: "ShipCheck — Release
-  Readiness". Same 74/100, same CAUTION lozenge, same blocker table.
+  Readiness". Same 76/100, same NOT READY lozenge, same blocker table.
 - [NARRATOR] "The same report lives on the project page, so the whole
   team sees one number — the agent, the dashboard, and the API all read
   from the same backend."
 
 ## Scene 4 — Before / after, live (2:50–3:30)
 
-- [VISUAL] In Jira, mark WEB-118 Done. Back on the dashboard, click
+- [VISUAL] In Jira, mark WEB-19 Done. Back on the dashboard, click
   Refresh.
-- [VISUAL] Score jumps to 89/100 — READY, green lozenge. Blocker
+- [VISUAL] Score jumps to 91/100 — READY, green lozenge. Blocker
   table shrinks.
 - [NARRATOR] "Fix the top blocker, refresh, and the verdict moves with
-  the work. Eighty-nine — READY. That is the whole loop: evidence in,
+  the work. Ninety-one — READY. That is the whole loop: evidence in,
   decision out."
 
 ## Scene 5 — MCP in a third-party client (3:30–4:00)
 
 - [VISUAL] Claude Code terminal. Ask: "Is WEB 2.4 ready to ship?"
-  The ShipCheck MCP tool runs; same 90/100 answer appears.
+  The ShipCheck MCP tool runs; same 76/100 answer appears.
 - [NARRATOR] "The same three tools are exposed through the Atlassian
   MCP server, so any MCP client can ask the same question — plus an
   open-source skill.md in the repo that teaches third-party agents how
@@ -74,8 +74,8 @@ clear English (all submission materials must be in English). Captions on.
 ## Shot list / checklist before recording
 
 - [ ] Dev site on Standard/Premium trial, Rovo on, ShipCheck installed
-- [ ] Seed data per README step 7 (score must read 74 NOT READY before
-  scene 4, 89 READY after marking the Highest bug Done)
+- [ ] Seed data per README step 7 (score must read 76 NOT READY before
+  scene 4, 91 READY after marking the Highest bug Done)
 - [ ] Rovo chat: ShipCheck agent visible and answering
 - [ ] Dashboard page installed on project WEB
 - [ ] Claude Code connected to the site MCP endpoint, ShipCheck tools on

@@ -21,7 +21,7 @@ proofs of concept.
 
 Ask in Rovo chat (or your MCP client, or open the dashboard):
 
-- **"Is version 2.4 ready to ship?"** → `74/100 — CAUTION`, with the
+- **"Is version 2.4 ready to ship?"** → `76/100 — NOT READY`, with the
   deduction breakdown and the top blockers.
 - **"What is blocking our release?"** → ranked blocker list: open
   Highest/High priority issues, unassigned issues, stale issues
@@ -111,12 +111,13 @@ Built locally, no accounts created. Validated without an Atlassian site:
    `seed-demo-data.mjs`, needs a Jira API token, see its header): project
    `WEB` ("Website Redesign"), version `2.4` (unreleased), 20 issues:
    18 Done, 1 To Do Highest (payment bug, assigned to you), 1 To Do High
-   (hero image, unassigned). Expected dashboard: **74/100 — NOT READY**
+   (hero image — Jira auto-assigns the creator, so it is assigned to you,
+   not unassigned). Expected dashboard: **76/100 — NOT READY**
    (any open Highest forces NOT READY), 2 blockers. Then mark the
-   Highest bug Done live on camera → refresh → **89/100 — READY**.
+   Highest bug Done live on camera → refresh → **91/100 — READY**.
    (That before/after arc is scene 4 of `demo-script.md`.)
-   The script prints the real issue keys — use those in the narration,
-   not the `WEB-118`/`WEB-121` placeholders in the demo script.
+   The seed prints the real issue keys: WEB-19 (Highest) and WEB-20
+   (High) — use those in the narration.
    Stale issues cannot be seeded via REST (Jira won't backdate
    `updated`); the numbers above assume stale = 0.
 8. **Demo video** (< 5 min, public YouTube) — script in `demo-script.md`.
